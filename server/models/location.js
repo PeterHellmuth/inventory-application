@@ -7,6 +7,12 @@ const { Schema } = mongoose;
 const LocationSchema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
+  items: [
+    {
+      item: { type: Schema.Types.ObjectId, ref: "item" },
+      quantity: { type: Number },
+    },
+  ],
 });
 
 // Virtual for book's URL

@@ -8,7 +8,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
-const mongoDB = `mongodb+srv://peterhellmuth:${process.env.MONGOOSE_PASS}@cluster0.kterel9.mongodb.net/local_library?retryWrites=true&w=majority`;
+const mongoDB = `mongodb+srv://peterhellmuth:${process.env.MONGOOSE_PASS}@cluster0.kterel9.mongodb.net/inventory_application?retryWrites=true&w=majority`;
 
 async function main() {
   await mongoose.connect(mongoDB);
@@ -23,17 +23,17 @@ const limiter = RateLimit({
   max: 20,
 });
 
+// Add helmet to the middleware chain.
+// Set CSP headers to allow our Bootstrap and Jquery to be served
+const helmet = require("helmet");
+
 const cors = require("cors");
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const inventoryRouter = require("./routes/inventory");
 
 const app = express();
 // Apply rate limiter to all requests
 app.use(limiter);
-
-// Add helmet to the middleware chain.
-// Set CSP headers to allow our Bootstrap and Jquery to be served
-const helmet = require("helmet");
 
 app.use(
   helmet.contentSecurityPolicy({
@@ -51,6 +51,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(cors());
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/inventory", inventoryRouter);
 
 module.exports = app;
