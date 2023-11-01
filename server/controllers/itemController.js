@@ -2,6 +2,7 @@ const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const Item = require("../models/item");
 const Location = require("../models/location");
+require("../models/location");
 
 exports.item_detail = asyncHandler(async (req, res, next) => {
   const item = await Item.findById(req.params.id).exec();
@@ -22,6 +23,14 @@ exports.item_create_post = [
     .isLength({ min: 1 })
     .escape()
     .withMessage("Name must be specified."),
+  body("price")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("Price must be specified.")
+    .isFloat({ gt: 0 })
+    .withMessage("Price must be greater than $0."),
+  body("description").trim().escape().optional(),
 
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
@@ -31,30 +40,39 @@ exports.item_create_post = [
     // Create Author object with escaped and trimmed data
     const item = new Item({
       name: req.body.name,
-      location: req.body.location,
       description: req.body.description,
-      category: req.body.category,
       price: req.body.price,
-      quantity: req.body.quantity,
     });
 
     if (!errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/errors messages.
-      res.send("error");
+      console.log(errors.array());
+      res.status(400).send(errors.array());
     } else {
       // Data from form is valid.
 
       // Save author.
       await item.save();
-      // Redirect to new author record.
-      res.send(item);
+      res.status(200).send();
     }
   }),
 ];
 
-exports.item_delete_post = asyncHandler(
-  async (req, res, next) => "delete_post"
-);
+exports.item_delete_post = asyncHandler(async (req, res, next) => {
+  // Get details of item and all locations with it in parallel
+  const [item, allLocationsWithItem] = await Promise.all([
+    Item.findById(req.params.id).exec(),
+    Location.find({ "items.item": req.params.id }).exec(),
+  ]);
+
+  console.log(allLocationsWithItem);
+  if (allLocationsWithItem.length > 0 || item == null) {
+    res.status(400).send("Can't delete this item");
+  } else {
+    await Item.findByIdAndRemove(req.body.itemid);
+    res.status(200);
+  }
+});
 exports.item_update_post = asyncHandler(
   async (req, res, next) => "item_update_post"
 );
