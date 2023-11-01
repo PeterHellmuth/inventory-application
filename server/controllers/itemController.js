@@ -65,12 +65,11 @@ exports.item_delete_post = asyncHandler(async (req, res, next) => {
     Location.find({ "items.item": req.params.id }).exec(),
   ]);
 
-  console.log(allLocationsWithItem);
   if (allLocationsWithItem.length > 0 || item == null) {
     res.status(400).send("Can't delete this item");
   } else {
     await Item.findByIdAndRemove(req.body.itemid);
-    res.status(200);
+    res.status(200).send("Deleted");
   }
 });
 exports.item_update_post = asyncHandler(
