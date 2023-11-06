@@ -21,16 +21,14 @@ exports.item_create_post = [
   body("name")
     .trim()
     .isLength({ min: 1 })
-    .escape()
     .withMessage("Name must be specified."),
   body("price")
     .trim()
     .isLength({ min: 1 })
-    .escape()
     .withMessage("Price must be specified.")
     .isFloat({ gt: 0 })
     .withMessage("Price must be greater than $0."),
-  body("description").trim().escape().optional(),
+  body("description").trim().optional({ falsy: true }),
 
   // Process request after validation and sanitization.
   asyncHandler(async (req, res, next) => {
@@ -46,7 +44,6 @@ exports.item_create_post = [
 
     if (!errors.isEmpty()) {
       // There are errors. Render form again with sanitized values/errors messages.
-      console.log(errors.array());
       res.status(400).send(errors.array());
     } else {
       // Data from form is valid.
@@ -72,12 +69,48 @@ exports.item_delete_post = asyncHandler(async (req, res, next) => {
     res.status(200).send("Deleted");
   }
 });
-exports.item_update_post = asyncHandler(
-  async (req, res, next) => "item_update_post"
-);
-exports.item_update_get = asyncHandler(
-  async (req, res, next) => "item_update_get"
-);
+
+exports.item_update_post = [
+  // Validate and sanitize fields.
+  body("name")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Name must be specified."),
+  body("price")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Price must be specified.")
+    .isFloat({ gt: 0 })
+    .withMessage("Price must be greater than $0."),
+  body("description").trim().optional({ falsy: true }),
+
+  // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    // Create Author object with escaped and trimmed data
+    const item = new Item({
+      name: req.body.name,
+      description: req.body.description,
+      price: req.body.price,
+      _id: req.params.id,
+    });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/errors messages.
+      res.status(400).send(errors.array());
+    } else {
+      // Data from form is valid.
+
+      // Update item
+      await Item.findByIdAndUpdate(req.params.id, item, {});
+      // Redirect to book detail page.
+      res.status(200).send();
+    }
+  }),
+];
+
 exports.item_list = asyncHandler(async (req, res, next) => {
   const allItems = await Item.find().populate("locations").exec();
   res.send(allItems);
