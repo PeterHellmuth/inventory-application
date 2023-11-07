@@ -47,8 +47,8 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-
+const buildPath = path.normalize(path.join(__dirname, "../client/dist"));
+app.use(express.static(buildPath));
 app.use(cors());
 app.use("/", indexRouter);
 app.use("/inventory", inventoryRouter);
