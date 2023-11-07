@@ -1,0 +1,99 @@
+body {
+  margin: 0px;
+}
+
+.nav-bar {
+  display: flex;
+  gap: 30px;
+  background-color: lightblue;
+  font-size: 30px;
+  padding: 10px;
+}
+
+.selected {
+  border-style: solid;
+  padding: 5px;
+}
+
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.quantity-sub-form {
+  display: flex;
+
+  gap: 10px;
+}
+
+.item-inventory-location {
+  display: flex;
+  border-style: solid;
+  padding: 10px;
+  justify-content: space-between;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.item {
+  border-style: solid;
+
+  width: 80%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.error-message {
+  color: red;
+}
+.item-button {
+  min-width: 50px;
+  max-width: 100px;
+}
+.location-buttons,
+.item-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.location-header,
+.item-header {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+.item-detail {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.add-item {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  padding: 20px;
+
+  gap: 10px;
+}
+
+.add-inventory-form {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+input {
+}
+
+.catalog {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px;
+}
