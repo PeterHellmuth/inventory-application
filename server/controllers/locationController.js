@@ -57,7 +57,6 @@ exports.location_create_post = [
 exports.location_delete_post = asyncHandler(async (req, res, next) => {
   // Get details of location
   const location = await Location.findById(req.params.id).exec();
-
   if (location.items.length > 0) {
     res.status(400).send("Can't delete this location, delete inventory first.");
   } else {
@@ -84,7 +83,6 @@ exports.location_update_item_inventory_post = [
       Location.findById(req.params.id).exec(),
       Item.findById(req.params.itemid).exec(),
     ]);
-    console.log(req.params.itemid);
     if (req.body.addQuantity) {
       let exists = false;
       currentLocation.items.map((item) => {
@@ -133,6 +131,44 @@ exports.location_update_item_inventory_post = [
     }
   }),
 ];
+
+exports.location_delete_item_inventory_post =
+  // Process request after validation and sanitization.
+  asyncHandler(async (req, res, next) => {
+    const [currentLocation, currentItem] = await Promise.all([
+      Location.findById(req.params.id).exec(),
+      Item.findById(req.params.itemid).exec(),
+    ]);
+
+    let exists = false;
+    currentLocation.items.forEach((item, index) => {
+      if (item.item.toString() === req.params.itemid) {
+        currentLocation.items.splice(index, 1);
+        exists = true;
+      }
+    });
+    if (exists) {
+      currentItem.locations.forEach((location, index) => {
+        if (location.toString() === req.params.id) {
+          currentItem.locations.splice(index, 1);
+        }
+      });
+    }
+
+    if (!exists) {
+      // There are errors.
+      res.status(400).send();
+    } else {
+      // Data from form is valid.
+
+      // Update both
+      await Promise.all([
+        Location.findByIdAndUpdate(req.params.id, currentLocation, {}),
+        Item.findByIdAndUpdate(req.params.itemid, currentItem, {}),
+      ]);
+      res.status(200).send();
+    }
+  });
 
 exports.location_update_post = [
   // Validate and sanitize fields.

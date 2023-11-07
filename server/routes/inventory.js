@@ -39,4 +39,9 @@ router.post(
   locationController.location_update_item_inventory_post
 );
 
+router.post(
+  "/location/:id/deleteItemInventory/:itemid",
+  locationController.location_delete_item_inventory_post
+);
+
 module.exports = router;
