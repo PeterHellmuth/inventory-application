@@ -40,7 +40,7 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
-      "connect-src": ["localhost:3000"],
+      "connect-src": ["*localhost:3000*"],
     },
   })
 );
