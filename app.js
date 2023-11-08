@@ -12,7 +12,7 @@ const mongoDB = `mongodb+srv://peterhellmuth:${process.env.MONGOOSE_PASS}@cluste
 
 async function main() {
   await mongoose.connect(mongoDB);
-  console.log("Connected to mongoDB");
+  console.log("Connected to MongoDB");
 }
 main().catch((err) => console.log(err));
 
@@ -21,7 +21,7 @@ const RateLimit = require("express-rate-limit");
 
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 20,
+  max: 100,
 });
 
 // Add helmet to the middleware chain.
@@ -40,7 +40,7 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
-      "connect-src": ["*localhost:3000*"],
+      "default-src": ["self"],
     },
   })
 );
