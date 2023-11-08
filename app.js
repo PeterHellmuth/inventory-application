@@ -36,15 +36,19 @@ const app = express();
 // Apply rate limiter to all requests
 app.use(limiter);
 
-app.use(
+/* app.use(
   helmet.contentSecurityPolicy({
     directives: {
       "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
-      "default-src": ["'self'", "localhost:*"],
+      "connect-src": ["'self'", "localhost:*"],
     },
   })
+); */
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
 );
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
