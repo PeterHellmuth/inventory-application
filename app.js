@@ -39,7 +39,12 @@ app.use(limiter);
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
+      "script-src": [
+        "'self'",
+        "localhost:3000",
+        "code.jquery.com",
+        "cdn.jsdelivr.net",
+      ],
     },
   })
 );
@@ -49,7 +54,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 const buildPath = path.normalize(path.join(__dirname, "./client/dist"));
-console.log(buildPath);
 app.use(express.static(buildPath));
 app.use(cors());
 app.use("/", indexRouter);
