@@ -29,7 +29,6 @@ function normalizePort(val) {
 
 const port = normalizePort(process.env.PORT || "3000");
 const SERVER_URL = "http://localhost:" + port;
-console.log("Using " + SERVER_URL + " for server URL.");
 
 function App() {
   const [currentTab, setTab] = useState("catalog");
