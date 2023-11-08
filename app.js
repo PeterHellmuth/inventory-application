@@ -12,6 +12,7 @@ const mongoDB = `mongodb+srv://peterhellmuth:${process.env.MONGOOSE_PASS}@cluste
 
 async function main() {
   await mongoose.connect(mongoDB);
+  console.log("Connected to mongoDB");
 }
 main().catch((err) => console.log(err));
 
