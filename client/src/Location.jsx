@@ -48,11 +48,11 @@ function Location({
             }}
             className="item-button"
           >
-            Edit name & description
+            Edit Name
           </button>
           <button
             type="button"
-            onClick={() => deleteLocation(location)}
+            onClick={(e) => deleteLocation(e, location)}
             className="item-button"
           >
             Delete Location
@@ -64,7 +64,7 @@ function Location({
           Add item to inventory:
           <select id="item" name="item" required>
             {allItems.map((item) => (
-              <option value={item._id}>{item.name}</option>
+              <option key={item._id} value={item._id}>{item.name}</option>
             ))}
           </select>
         </label>
@@ -88,25 +88,21 @@ function Location({
       <div className="inventory-list">
         {location.items
           ? location.items.map((item) => (
-              <div key={item.item} className="item-inventory-location">
+              <div key={item.item} className="item">
                 <div className="container">
-                  <p>
-                    <div className="container">
-                      <strong>Item:</strong>{" "}
-                      <ItemLink
-                        item={findItem(item.item)}
-                        viewItem={viewItem}
-                      />
-                    </div>
-                  </p>
-                  <p>
-                    <strong>Description:</strong>{" "}
-                    {findItem(item.item).description}
-                  </p>
-                  <p>
-                    <strong>Quantity:</strong> {item.quantity}
-                  </p>
+                  <strong>Item:</strong>{" "}
+                  <ItemLink
+                    item={findItem(item.item)}
+                    viewItem={viewItem}
+                  />
                 </div>
+                <span>
+                  <strong>Description:</strong>{" "}
+                  {findItem(item.item).description}
+                </span>
+                <span className="flex">
+                  <strong>Quantity:</strong> {item.quantity}
+                </span>
                 <div className="container">
                   <form action="" method="POST" className="quantity-sub-form">
                     <label htmlFor="quantity">

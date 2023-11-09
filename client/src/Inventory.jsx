@@ -23,20 +23,18 @@ function Inventory({
         }}
         className="item-button"
       >
-        Add location to catalog
+        Add New Location
       </button>
 
       {allLocations != null
         ? allLocations.map((location) => (
             <div className="item" key={location._id}>
               <LocationLink location={location} viewLocation={viewLocation} />
-              <div>
+              <div className="container">
                 <button
                   type="button"
                   onClick={() => {
-                    setErrors([]);
-                    setTab("add_location");
-                    setEditLocation(location);
+                    viewLocation(location._id)
                   }}
                   className="item-button"
                 >
@@ -44,7 +42,7 @@ function Inventory({
                 </button>
                 <button
                   type="button"
-                  onClick={() => deleteLocation(location)}
+                  onClick={(e) => deleteLocation(e, location)}
                   className="item-button"
                 >
                   Delete

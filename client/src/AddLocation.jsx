@@ -1,6 +1,6 @@
 import React from "react";
 
-function AddLocation({ addLocation, errors, locationToEdit = null }) {
+function AddLocation({ addLocation, errors, setTab,locationToEdit = null }) {
   return (
     <form method="POST" action="" className="add-item">
       <label htmlFor="name">Name: </label>
@@ -27,13 +27,22 @@ function AddLocation({ addLocation, errors, locationToEdit = null }) {
       <span className="error-message">
         {errors.description ? errors.description : ""}
       </span>
-      <button
-        className="item-button"
-        type="submit"
-        onClick={(e) => addLocation(e, locationToEdit)}
-      >
-        Submit
-      </button>
+      <div className="container">
+        <button
+          className="item-button"
+          type="submit"
+          onClick={(e) => {e.preventDefault(); setTab("inventory")}}
+        >
+          Cancel
+        </button>
+        <button
+          className="item-button"
+          type="submit"
+          onClick={(e) => addLocation(e, locationToEdit)}
+        >
+          Submit
+        </button>
+      </div>
     </form>
   );
 }

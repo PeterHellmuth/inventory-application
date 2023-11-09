@@ -5,10 +5,10 @@ function Navbar({ currentTab, setTab, viewItem }) {
   const catalogClassname =
     currentTab == "catalog" ||
     currentTab == "item_detail" ||
-    currentTab == "new_item"
-      ? "selected"
-      : "";
-  const inventoryClassname = currentTab == "inventory" ? "selected" : "";
+    currentTab == "add_item"
+      ? "tab selected"
+      : "tab";
+  const inventoryClassname = currentTab == "inventory" || currentTab=="location_detail" || currentTab=="add_location" ? "tab selected" : "tab";
 
   return (
     <div className="nav-bar">

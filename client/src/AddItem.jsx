@@ -1,6 +1,6 @@
 import React from "react";
 
-function AddItem({ addItem, errors, itemToEdit = null }) {
+function AddItem({ addItem, errors, setTab, itemToEdit = null }) {
   return (
     <form method="POST" action="" className="add-item">
       <label htmlFor="name">Name: </label>
@@ -40,6 +40,14 @@ function AddItem({ addItem, errors, itemToEdit = null }) {
       <span className="error-message">
         {errors.description ? errors.description : ""}
       </span>
+      <div className="container">
+      <button
+        className="item-button"
+        type="submit"
+        onClick={(e) => {e.preventDefault(); setTab("catalog")}}
+      >
+        Cancel
+      </button>
       <button
         className="item-button"
         type="submit"
@@ -47,6 +55,8 @@ function AddItem({ addItem, errors, itemToEdit = null }) {
       >
         Submit
       </button>
+      </div>
+
     </form>
   );
 }

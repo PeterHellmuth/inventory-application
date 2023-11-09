@@ -9,7 +9,20 @@ function Item({
   setTab,
   setEditItem,
   viewLocation,
+  removeFromInventory,
 }) {
+
+
+  const findMatchingLocationItem = (item, location) =>{
+    let foundItem = null;
+    location.items.forEach((currentItem)=>{
+      if(currentItem.item===item._id){
+        foundItem = item;
+      }
+    })
+    return foundItem;
+  }
+
   return (
     <div className="item-detail">
       <div className="item-header">
@@ -32,7 +45,7 @@ function Item({
           </button>
           <button
             type="button"
-            onClick={() => deleteItem(item)}
+            onClick={(e) => deleteItem(e, item)}
             className="item-button"
           >
             Delete
@@ -45,17 +58,18 @@ function Item({
       ) : (
         <p>Not in any inventory</p>
       )}
+      <div className="inventory-list">
       {item.locations
         ? item.locations.map((location) => (
-            <div key={location._id} className="item-inventory-location">
-              <p>
+            <div key={location._id} className="item">
+              <div className="container">
                 <strong>Location:</strong>{" "}
                 <LocationLink location={location} viewLocation={viewLocation} />
-              </p>
-              <p>
+              </div>
+              <span>
                 <strong>Description:</strong> {location.description}
-              </p>
-              <p>
+              </span>
+              <span>
                 <strong>Quantity:</strong>{" "}
                 {location.items.reduce(
                   (quantity, currentItem) =>
@@ -63,10 +77,19 @@ function Item({
                     (currentItem.item === item._id ? currentItem.quantity : 0),
                   0,
                 )}
-              </p>
+              </span>
+              <button
+                    className="item-button"
+                    type="submit"
+                    onClick={() => removeFromInventory(findMatchingLocationItem(item, location), location)}
+                  >
+                    Delete from this location
+                  </button>
             </div>
           ))
         : ""}
+      </div>
+
     </div>
   );
 }

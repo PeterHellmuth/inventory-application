@@ -10,6 +10,7 @@ import Item from "./Item";
 import Location from "./Location";
 import AddItem from "./AddItem";
 import AddLocation from "./AddLocation";
+import ErrorPopup from "./ErrorPopup";
 
 function normalizePort(val) {
   const port = parseInt(val, 10);
@@ -40,6 +41,8 @@ function App() {
   const [editItem, setEditItem] = useState(null);
   const [editLocation, setEditLocation] = useState(null);
   const [currentLocationId, setCurrentLocationId] = useState(null);
+  const [errorPopupMessage, setErrorPopupMessage] = useState(null);
+  const [errorLocation, setErrorLocation] = useState({x: 0, y:0});
   // catalog, inventory, edit item, add item, blah blah
 
   const viewLocation = (id) => {
@@ -73,7 +76,7 @@ function App() {
     }
   };
 
-  const deleteItem = (item) => {
+  const deleteItem = (e, item) => {
     fetch(`${SERVER_URL}/inventory/item/${item._id}/delete`, {
       method: "POST",
       headers: {
@@ -90,11 +93,15 @@ function App() {
           });
         } else {
           console.log(res);
+          setErrorLocation({x:e.clientX, y:e.clientY})
+          setErrorPopupMessage("Can't delete, item is in inventory.")
         }
       })
       .catch((err) => console.log(err));
   };
   const removeFromInventory = (item, location) => {
+    console.log(item)
+    console.log(location)
     let fetchUrl = "";
     if (item && location) {
       fetchUrl = `${SERVER_URL}/inventory/location/${location._id}/deleteItemInventory/${item.item}`;
@@ -113,7 +120,7 @@ function App() {
       .catch((err) => console.log(err));
   };
 
-  const deleteLocation = (location) => {
+  const deleteLocation = (e, location) => {
     fetch(`${SERVER_URL}/inventory/location/${location._id}/delete`, {
       method: "POST",
       headers: {
@@ -130,7 +137,8 @@ function App() {
             setCurrentLocationId(null);
           });
         } else {
-          console.log(res);
+          setErrorLocation({x:e.clientX, y:e.clientY})
+          setErrorPopupMessage("Can't delete, location has inventory.")
         }
       })
       .catch((err) => console.log(err));
@@ -138,21 +146,20 @@ function App() {
 
   const addLocation = (event, locationToEdit = null) => {
     event.preventDefault();
-
     let fetchUrl = "";
     let data = null;
     if (locationToEdit) {
       fetchUrl = `${SERVER_URL}/inventory/location/${locationToEdit._id}/update`;
       data = JSON.stringify({
-        name: event.target.parentNode.name.value,
-        description: event.target.parentNode.description.value,
+        name: event.target.parentNode.parentNode.name.value,
+        description: event.target.parentNode.parentNode.description.value,
         id: locationToEdit._id,
       });
     } else {
       fetchUrl = `${SERVER_URL}/inventory/location/create`;
       data = JSON.stringify({
-        name: event.target.parentNode.name.value,
-        description: event.target.parentNode.description.value,
+        name: event.target.parentNode.parentNode.name.value,
+        description: event.target.parentNode.parentNode.description.value,
       });
     }
     fetch(fetchUrl, {
@@ -224,23 +231,22 @@ function App() {
 
   const addItem = (event, itemToEdit = null) => {
     event.preventDefault();
-
     let fetchUrl = "";
     let data = null;
     if (itemToEdit) {
       fetchUrl = `${SERVER_URL}/inventory/item/${itemToEdit._id}/update`;
       data = JSON.stringify({
-        name: event.target.parentNode.name.value,
-        description: event.target.parentNode.description.value,
-        price: event.target.parentNode.price.value,
+        name: event.target.parentNode.parentNode.name.value,
+        description: event.target.parentNode.parentNode.description.value,
+        price: event.target.parentNode.parentNode.price.value,
         id: itemToEdit._id,
       });
     } else {
       fetchUrl = `${SERVER_URL}/inventory/item/create`;
       data = JSON.stringify({
-        name: event.target.parentNode.name.value,
-        description: event.target.parentNode.description.value,
-        price: event.target.parentNode.price.value,
+        name: event.target.parentNode.parentNode.name.value,
+        description: event.target.parentNode.parentNode.description.value,
+        price: event.target.parentNode.parentNode.price.value,
       });
     }
     fetch(fetchUrl, {
@@ -270,6 +276,7 @@ function App() {
 
   return (
     <div>
+      <ErrorPopup location={errorLocation} errorPopupMessage={errorPopupMessage} setErrorPopupMessage={setErrorPopupMessage}/>
       <Navbar currentTab={currentTab} setTab={setTab} viewItem={viewItem} />
       {currentTab === "catalog" ? (
         <Catalog
@@ -288,6 +295,7 @@ function App() {
           setTab={setTab}
           setErrors={setErrors}
           viewLocation={viewLocation}
+          removeFromInventory={removeFromInventory}
         />
       ) : currentTab === "location_detail" ? (
         <Location
@@ -303,12 +311,13 @@ function App() {
           viewItem={viewItem}
         />
       ) : currentTab === "add_item" ? (
-        <AddItem errors={errors} addItem={addItem} itemToEdit={editItem} />
+        <AddItem errors={errors} addItem={addItem} setTab={setTab} itemToEdit={editItem} />
       ) : currentTab === "add_location" ? (
         <AddLocation
           errors={errors}
           addLocation={addLocation}
-          locationToEdit={editLocation}
+          locationToEdit={editLocation} 
+          setTab={setTab}
         />
       ) : (
         <Inventory

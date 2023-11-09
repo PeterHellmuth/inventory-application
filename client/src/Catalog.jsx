@@ -21,14 +21,14 @@ function Catalog({
         }}
         className="item-button"
       >
-        Add item to catalog
+        Add New Item
       </button>
 
       {allItems != null
         ? allItems.map((item) => (
             <div className="item" key={item._id}>
               <ItemLink item={item} viewItem={viewItem} />
-              <div>
+              <div className="container">
                 <button
                   type="button"
                   onClick={() => {
@@ -42,7 +42,7 @@ function Catalog({
                 </button>
                 <button
                   type="button"
-                  onClick={() => deleteItem(item)}
+                  onClick={(e) => deleteItem(e, item)}
                   className="item-button"
                 >
                   Delete
