@@ -29,7 +29,10 @@ function normalizePort(val) {
 }
 
 const port = normalizePort(process.env.PORT || "3000");
-const SERVER_URL = "http://localhost:" + port;
+const SERVER_URL = "http://inventory-application-ph.fly.dev"; //deployed
+//const SERVER_URL = "http://localhost:" + port; //dev test
+
+console.log("Server URL: " + SERVER_URL);
 
 function App() {
   const [currentTab, setTab] = useState("catalog");
@@ -42,7 +45,7 @@ function App() {
   const [editLocation, setEditLocation] = useState(null);
   const [currentLocationId, setCurrentLocationId] = useState(null);
   const [errorPopupMessage, setErrorPopupMessage] = useState(null);
-  const [errorLocation, setErrorLocation] = useState({x: 0, y:0});
+  const [errorLocation, setErrorLocation] = useState({ x: 0, y: 0 });
   // catalog, inventory, edit item, add item, blah blah
 
   const viewLocation = (id) => {
@@ -52,17 +55,23 @@ function App() {
 
   async function updateCatalog() {
     await Promise.all([
-      fetch(`${SERVER_URL}/inventory/items`, { method: "GET" })
+      fetch(`${SERVER_URL}/inventory/items`, { method: "GET", timeout: 5000 })
         .then((res) => res.json())
         .then((res) => {
           setAllItems(res);
         }),
-      fetch(`${SERVER_URL}/inventory/locations`, { method: "GET" })
+      fetch(`${SERVER_URL}/inventory/locations`, {
+        method: "GET",
+        timeout: 5000,
+      })
         .then((res) => res.json())
         .then((res) => {
           setAllLocations(res);
         }),
-    ]);
+    ]).catch((error) => {
+      console.log(error);
+      console.log("Failed to get data from server.");
+    });
   }
 
   useEffect(() => {
@@ -93,15 +102,15 @@ function App() {
           });
         } else {
           console.log(res);
-          setErrorLocation({x:e.clientX, y:e.clientY})
-          setErrorPopupMessage("Can't delete, item is in inventory.")
+          setErrorLocation({ x: e.clientX, y: e.clientY });
+          setErrorPopupMessage("Can't delete, item is in inventory.");
         }
       })
       .catch((err) => console.log(err));
   };
   const removeFromInventory = (item, location) => {
-    console.log(item)
-    console.log(location)
+    console.log(item);
+    console.log(location);
     let fetchUrl = "";
     if (item && location) {
       fetchUrl = `${SERVER_URL}/inventory/location/${location._id}/deleteItemInventory/${item.item}`;
@@ -137,8 +146,8 @@ function App() {
             setCurrentLocationId(null);
           });
         } else {
-          setErrorLocation({x:e.clientX, y:e.clientY})
-          setErrorPopupMessage("Can't delete, location has inventory.")
+          setErrorLocation({ x: e.clientX, y: e.clientY });
+          setErrorPopupMessage("Can't delete, location has inventory.");
         }
       })
       .catch((err) => console.log(err));
@@ -276,7 +285,11 @@ function App() {
 
   return (
     <div>
-      <ErrorPopup location={errorLocation} errorPopupMessage={errorPopupMessage} setErrorPopupMessage={setErrorPopupMessage}/>
+      <ErrorPopup
+        location={errorLocation}
+        errorPopupMessage={errorPopupMessage}
+        setErrorPopupMessage={setErrorPopupMessage}
+      />
       <Navbar currentTab={currentTab} setTab={setTab} viewItem={viewItem} />
       {currentTab === "catalog" ? (
         <Catalog
@@ -311,12 +324,17 @@ function App() {
           viewItem={viewItem}
         />
       ) : currentTab === "add_item" ? (
-        <AddItem errors={errors} addItem={addItem} setTab={setTab} itemToEdit={editItem} />
+        <AddItem
+          errors={errors}
+          addItem={addItem}
+          setTab={setTab}
+          itemToEdit={editItem}
+        />
       ) : currentTab === "add_location" ? (
         <AddLocation
           errors={errors}
           addLocation={addLocation}
-          locationToEdit={editLocation} 
+          locationToEdit={editLocation}
           setTab={setTab}
         />
       ) : (
