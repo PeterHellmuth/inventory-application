@@ -1,6 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import { React } from "react";
 import LocationLink from "./LocationLink";
+import EditIcon from "../media/edit.svg"
+import DeleteIcon from "../media/delete.svg"
+
 
 const SERVER_URL = "http://localhost:3000";
 
@@ -31,22 +34,23 @@ function Inventory({
             <div className="item" key={location._id}>
               <LocationLink location={location} viewLocation={viewLocation} />
               <div className="container">
-                <button
-                  type="button"
+                <img
+                src={EditIcon}
+                  
                   onClick={() => {
                     viewLocation(location._id)
                   }}
-                  className="item-button"
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
+                  className="icon-button"
+                  title="Edit"
+                  alt="Edit"
+                />
+                <img
+                  src={DeleteIcon}
                   onClick={(e) => deleteLocation(e, location)}
-                  className="item-button"
-                >
-                  Delete
-                </button>
+                  className="icon-button"
+                  title="Delete"
+                  alt="Delete"
+                />
               </div>
             </div>
           ))

@@ -30,7 +30,7 @@ function normalizePort(val) {
 
 const port = normalizePort(process.env.PORT || "3000");
 const SERVER_URL = "http://inventory-application-ph.fly.dev"; //deployed
-//const SERVER_URL = "http://localhost:" + port; //dev test
+//const SERVER_URL = "http://localhost:" + "3000"; //dev test
 
 console.log("Server URL: " + SERVER_URL);
 
@@ -45,13 +45,17 @@ function App() {
   const [editLocation, setEditLocation] = useState(null);
   const [currentLocationId, setCurrentLocationId] = useState(null);
   const [errorPopupMessage, setErrorPopupMessage] = useState(null);
-  const [errorLocation, setErrorLocation] = useState({ x: 0, y: 0 });
+  const [errorLocation, setErrorStateLocation] = useState({ x: 0, y: 0 });
   // catalog, inventory, edit item, add item, blah blah
 
   const viewLocation = (id) => {
     setCurrentLocationId(id);
     setTab("location_detail");
   };
+
+  function setErrorLocation(loc){
+    setErrorStateLocation({x: loc.x-100, y: loc.y+20})
+  }
 
   async function updateCatalog() {
     await Promise.all([
@@ -212,6 +216,7 @@ function App() {
         addQuantity: true,
       });
     }
+   
 
     fetch(fetchUrl, {
       method: "POST",
@@ -225,7 +230,12 @@ function App() {
           updateCatalog().then(() => {
             setTab("location_detail");
           });
+     
           return true;
+        }else{
+          console.log("Invalid quantity.")
+          setErrorLocation({ x: event.clientX, y: event.clientY });
+          setErrorPopupMessage("Quantity must be greater than zero.");
         }
         return res.json().then((err) => {
           const errorMessages = {};

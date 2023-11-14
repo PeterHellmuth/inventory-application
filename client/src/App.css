@@ -1,5 +1,6 @@
 :root {
 --background: lightblue;
+font-size: 16px;
 }
 body {
   margin: 0px;
@@ -9,17 +10,25 @@ h3{
   margin: 0px;
 }
 
+.icon{
+  width: 20px;
+  height: 20px;
+
+    filter: invert(96%) sepia(0%) saturate(5%) hue-rotate(110deg) brightness(91%) contrast(85%);
+
+}
 .nav-bar {
   display: flex;
   background-color: var(--background);
   font-size: 30px;
   padding-top: 30px;
   padding-left: 20px;
-
+  align-items: center;
+  gap: 3px;
 }
 
 .tab{
-  background-color: lightgrey;
+  background-color: #d3d3d3;
   padding: 30px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
@@ -28,19 +37,28 @@ h3{
 
 .tab:hover{
   color: black;
+  cursor: pointer;
+  .icon{
+    filter: none;
+   }
+
 }
 
 .selected:hover{
   background-color: white;
+
 }
 
 .selected {
   background-color: white;
   color: black;
+  .icon{
+    filter: none;
+   }
 }
 
 .item-link{
-
+  
   color: blue;
 }
 
@@ -84,12 +102,26 @@ h3{
   color: red;
 }
 .item-button {
-  min-width: 50px;
-  max-width: 100px;
-  background: lightblue;
-  font-size: 12px;
-  padding: 3px;
+  width: 150px;
+  border-radius: 20px;
+  background-color: white;
+  font-size: 14px;
+  padding: 10px;
+  margin-bottom: 10px;
 }
+
+.item-button:hover{
+  cursor: pointer;
+}
+
+.icon-button{
+  width: 30px;
+}
+.icon-button:hover{
+  cursor: pointer;
+}
+
+
 .location-buttons,
 .item-buttons {
   display: flex;
@@ -143,6 +175,10 @@ h3{
 }
 
 @media (max-width: 800px){
+  :root{
+    font-size: 14px;
+
+  }
   .item-buttons{
     flex-direction: row;
   }
@@ -158,4 +194,5 @@ h3{
     padding-top: 10px;
     padding-left: 5px;
   }
+
 }

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 const SERVER_URL = "http://localhost:3000";
+import catalogIcon from "../media/catalog.svg"
+import inventoryIcon from "../media/inventory.svg"
 
 function Navbar({ currentTab, setTab, viewItem }) {
   const catalogClassname =
@@ -18,10 +20,11 @@ function Navbar({ currentTab, setTab, viewItem }) {
           viewItem(null);
           setTab("catalog");
         }}
-      >
+      ><img src={catalogIcon} alt="Catalog" className="icon"/>
         Catalog
       </div>
       <div className={inventoryClassname} onClick={() => setTab("inventory")}>
+      <img src={inventoryIcon} alt="Inventory" className="icon"/>
         Inventory
       </div>
     </div>

@@ -1,6 +1,9 @@
 /* eslint-disable no-underscore-dangle */
 import React from "react";
 import ItemLink from "./ItemLink";
+import EditIcon from "../media/edit.svg"
+import DeleteIcon from "../media/delete.svg"
+import SaveIcon from "../media/save.svg"
 
 function Location({
   locationId,
@@ -39,24 +42,27 @@ function Location({
           <p>Description: {location.description}</p>
         </div>
         <div className="location-buttons">
-          <button
-            type="button"
+          <img
+         
             onClick={() => {
               setErrors([]);
               setTab("add_location");
               setEditLocation(location);
             }}
-            className="item-button"
-          >
-            Edit Name
-          </button>
-          <button
+            className="icon-button"
+            src={EditIcon}
+            alt="Edit Name"
+            title="Edit Name"
+          />
+
+          <img
             type="button"
+            src={DeleteIcon}
             onClick={(e) => deleteLocation(e, location)}
-            className="item-button"
-          >
-            Delete Location
-          </button>
+            className="icon-button"
+            alt="Delete Location"
+            title="Delete Location"
+          />
         </div>
       </div>
       <form action="" method="POST" className="add-inventory-form">
@@ -72,13 +78,14 @@ function Location({
           Quantity:
           <input type="number" name="quantity" id="quantity" required />
         </label>
-        <button
-          className="item-button"
-          type="submit"
+        <img
+        src={SaveIcon}
+          className="icon-button"
+ 
           onClick={(e) => updateItemInventory(e, null, location)}
-        >
-          Submit
-        </button>
+          title="Submit"
+          alt="Submit"
+        />
       </form>
       {location.items.length > 0 ? (
         <h3>Items in inventory: </h3>
@@ -114,21 +121,23 @@ function Location({
                         required
                       />
                     </label>
-                    <button
-                      className="item-button"
-                      type="submit"
+                    <img
+                    src={SaveIcon}
+                      className="icon-button"
+                      
                       onClick={(e) => updateItemInventory(e, item, location)}
-                    >
-                      Set
-                    </button>
+                      title="Set Quantity"
+                      alt="Set Quantity"
+                    />
                   </form>
-                  <button
-                    className="item-button"
-                    type="submit"
+                  <img
+                  src={DeleteIcon}
+                    className="icon-button"
                     onClick={() => removeFromInventory(item, location)}
-                  >
-                    Delete from this location
-                  </button>
+                    alt="Delete from this location"
+                    title="Delete from this location"
+                  />
+                    
                 </div>
               </div>
             ))
