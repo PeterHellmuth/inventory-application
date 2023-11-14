@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import React from "react";
 import LocationLink from "./LocationLink";
+import EditIcon from "../media/edit.svg";
+import DeleteIcon from "../media/delete.svg";
 
 function Item({
   item,
@@ -11,17 +13,15 @@ function Item({
   viewLocation,
   removeFromInventory,
 }) {
-
-
-  const findMatchingLocationItem = (item, location) =>{
+  const findMatchingLocationItem = (item, location) => {
     let foundItem = null;
-    location.items.forEach((currentItem)=>{
-      if(currentItem.item===item._id){
+    location.items.forEach((currentItem) => {
+      if (currentItem.item === item._id) {
         foundItem = item;
       }
-    })
+    });
     return foundItem;
-  }
+  };
 
   return (
     <div className="item-detail">
@@ -32,24 +32,24 @@ function Item({
           <p>Description: {item.description}</p>
         </div>
         <div className="item-buttons">
-          <button
-            type="button"
+          <img
+            src={EditIcon}
             onClick={() => {
               setErrors([]);
               setTab("add_item");
               setEditItem(item);
             }}
-            className="item-button"
-          >
-            Edit
-          </button>
-          <button
-            type="button"
+            className="icon-button"
+            title="Edit"
+            alt="Edit"
+          />
+          <img
+            src={DeleteIcon}
             onClick={(e) => deleteItem(e, item)}
-            className="item-button"
-          >
-            Delete
-          </button>
+            className="icon-button"
+            title="Delete"
+            alt="Delete"
+          />
         </div>
       </div>
 
@@ -59,37 +59,47 @@ function Item({
         <p>Not in any inventory</p>
       )}
       <div className="inventory-list">
-      {item.locations
-        ? item.locations.map((location) => (
-            <div key={location._id} className="item">
-              <div className="container">
-                <strong>Location:</strong>{" "}
-                <LocationLink location={location} viewLocation={viewLocation} />
+        {item.locations
+          ? item.locations.map((location) => (
+              <div key={location._id} className="item">
+                <div className="container">
+                  <strong>Location:</strong>{" "}
+                  <LocationLink
+                    location={location}
+                    viewLocation={viewLocation}
+                  />
+                </div>
+                <span>
+                  <strong>Description:</strong> {location.description}
+                </span>
+                <span>
+                  <strong>Quantity:</strong>{" "}
+                  {location.items.reduce(
+                    (quantity, currentItem) =>
+                      quantity +
+                      (currentItem.item === item._id
+                        ? currentItem.quantity
+                        : 0),
+                    0,
+                  )}
+                </span>
+                <img
+                  src={DeleteIcon}
+                  type="submit"
+                  onClick={() =>
+                    removeFromInventory(
+                      findMatchingLocationItem(item, location),
+                      location,
+                    )
+                  }
+                  alt="Delete from location"
+                  title="Delete from location"
+                  className="icon-button"
+                />
               </div>
-              <span>
-                <strong>Description:</strong> {location.description}
-              </span>
-              <span>
-                <strong>Quantity:</strong>{" "}
-                {location.items.reduce(
-                  (quantity, currentItem) =>
-                    quantity +
-                    (currentItem.item === item._id ? currentItem.quantity : 0),
-                  0,
-                )}
-              </span>
-              <button
-                    className="item-button"
-                    type="submit"
-                    onClick={() => removeFromInventory(findMatchingLocationItem(item, location), location)}
-                  >
-                    Delete from this location
-                  </button>
-            </div>
-          ))
-        : ""}
+            ))
+          : ""}
       </div>
-
     </div>
   );
 }

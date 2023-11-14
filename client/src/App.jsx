@@ -53,8 +53,8 @@ function App() {
     setTab("location_detail");
   };
 
-  function setErrorLocation(loc){
-    setErrorStateLocation({x: loc.x-100, y: loc.y+20})
+  function setErrorLocation(loc) {
+    setErrorStateLocation({ x: loc.x - 150, y: loc.y + 20 });
   }
 
   async function updateCatalog() {
@@ -216,7 +216,6 @@ function App() {
         addQuantity: true,
       });
     }
-   
 
     fetch(fetchUrl, {
       method: "POST",
@@ -230,10 +229,10 @@ function App() {
           updateCatalog().then(() => {
             setTab("location_detail");
           });
-     
+
           return true;
-        }else{
-          console.log("Invalid quantity.")
+        } else {
+          console.log("Invalid quantity.");
           setErrorLocation({ x: event.clientX, y: event.clientY });
           setErrorPopupMessage("Quantity must be greater than zero.");
         }
