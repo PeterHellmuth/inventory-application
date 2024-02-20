@@ -29,7 +29,7 @@ function normalizePort(val) {
 }
 
 const port = normalizePort(process.env.PORT || "3000");
-const SERVER_URL = "http://inventory-application-ph.fly.dev"; //deployed
+const SERVER_URL = "http://inventory-application-xpgy.onrender.com"; //deployed
 //const SERVER_URL = "http://localhost:" + "3000"; //dev test
 
 console.log("Server URL: " + SERVER_URL);
