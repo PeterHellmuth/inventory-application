@@ -40,7 +40,10 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
-      "connect-src": ["'self'", "http://inventory-application-ph.fly.dev/"],
+      "connect-src": [
+        "'self'",
+        "http://inventory-application-xpgy.onrender.com",
+      ],
     },
   })
 );
