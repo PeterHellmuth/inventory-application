@@ -8,7 +8,9 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 mongoose.set("strictQuery", false);
+mongoose.set("debug", true);
 const mongoDB = `mongodb+srv://peterhellmuth:${process.env.MONGOOSE_PASS}@cluster0.kterel9.mongodb.net/inventory_application?retryWrites=true&w=majority`;
+
 console.log(
   `mongodb+srv://peterhellmuth:${process.env.MONGOOSE_PASS}@cluster0.kterel9.mongodb.net/inventory_application?retryWrites=true&w=majority`
 );
