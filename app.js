@@ -45,7 +45,7 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
-      "connect-src": ["'self'", "http://localhost:3001"],
+      "connect-src": ["'self'", "https://www.peterhellmuth.com:3001"],
     },
   })
 );
