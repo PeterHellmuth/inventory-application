@@ -56,7 +56,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 const buildPath = path.normalize(path.join(__dirname, "./client/dist"));
 app.use(express.static(buildPath));
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://www.peterhellmuth.com",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use("/", indexRouter);
 app.use("/inventory", inventoryRouter);
 
