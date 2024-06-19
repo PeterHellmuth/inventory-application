@@ -45,10 +45,7 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
-      "connect-src": [
-        "'self'",
-        "http://inventory-application-xpgy.onrender.com",
-      ],
+      "connect-src": ["'self'", "http://localhost:3001"],
     },
   })
 );
