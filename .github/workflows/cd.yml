@@ -25,7 +25,8 @@ jobs:
           port: 22
           script: |
             cd ~/inventory-application
-            git pull origin main
+            git fetch --all
+            git reset --hard origin/main
             git status
             cd ../portfolio
             sudo docker compose down

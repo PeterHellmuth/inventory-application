@@ -64,6 +64,6 @@ app.use(
   })
 );
 app.use("/", indexRouter);
-app.use("/inventory", inventoryRouter);
+app.use("/inventory-application-host/inventory", inventoryRouter);
 
 module.exports = app;
