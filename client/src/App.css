@@ -1,5 +1,12 @@
 :root {
   --background: lightblue;
+  --primary-color: #d3d3d3;
+  --secondary-color: grey;
+  --highlight-color: #add8e6;
+  --white: white;
+  --black: black;
+  --error-color: red;
+  --link-color: blue;
   font-size: 16px;
 }
 body {
@@ -30,11 +37,11 @@ h3 {
 }
 
 .tab {
-  background-color: #d3d3d3;
+  background-color: var(--primary-color);
   padding: 10px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  color: grey;
+  color: var(--secondary-color);
   display: flex;
   gap: 3px;
   align-items: center;
@@ -44,7 +51,7 @@ h3 {
 }
 
 .tab:hover {
-  color: black;
+  color: var(--black);
   cursor: pointer;
   .icon {
     filter: none;
@@ -52,19 +59,19 @@ h3 {
 }
 
 .selected:hover {
-  background-color: white;
+  background-color: var(--white);
 }
 
 .selected {
-  background-color: white;
-  color: black;
+  background-color: var(--white);
+  color: var(--black);
   .icon {
     filter: none;
   }
 }
 
 .item-link {
-  color: blue;
+  color: var(--link-color);
 }
 
 .inventory-list {
@@ -101,12 +108,12 @@ h3 {
 }
 
 .error-message {
-  color: red;
+  color: var(--error-color);
 }
 .item-button {
   width: 150px;
   border-radius: 10px;
-  background-color: white;
+  background-color: var(--white);
   font-size: 14px;
   padding: 10px;
   margin-bottom: 10px;
@@ -116,7 +123,7 @@ h3 {
 }
 
 .item-button:hover {
-  background-color: #add8e6;
+  background-color: var(--highlight-color);
 }
 
 .item-button:hover {

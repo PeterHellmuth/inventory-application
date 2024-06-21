@@ -7,7 +7,7 @@
     "devstart": "nodemon ./bin/www",
     "devbuild": "cd client && npm run build",
     "serverstart": "DEBUG=express-locallibrary-tutorial:* npm run devstart",
-    "build": "",
+    "build": "cd client && npm run build",
     "deploy": "npm run devbuild && fly deploy"
   },
   "dependencies": {
