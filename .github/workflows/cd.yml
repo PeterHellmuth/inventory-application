@@ -5,7 +5,9 @@ name: Docker CD
 on:
   # Triggers the workflow on push request events but only for the main branch
   push:
-    branches: [main]
+    branches:
+      - main
+      - "single_docker_image"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -16,7 +18,7 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - name: Deploy using ssh
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}

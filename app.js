@@ -58,12 +58,12 @@ const buildPath = path.normalize(path.join(__dirname, "./client/dist"));
 app.use(express.static(buildPath));
 app.use(
   cors({
-    origin: "https://www.peterhellmuth.com",
+    origin: ["https://www.peterhellmuth.com", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-app.use("/", indexRouter);
-app.use("/inventory-application-host/inventory", inventoryRouter);
+app.use("/inventory-application", indexRouter);
+app.use("/inventory-application/inventory", inventoryRouter);
 
 module.exports = app;
