@@ -38,6 +38,7 @@ const indexRouter = require("./routes/index");
 const inventoryRouter = require("./routes/inventory");
 
 const app = express();
+app.set("trust proxy", true);
 // Apply rate limiter to all requests
 app.use(limiter);
 
@@ -55,6 +56,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 const buildPath = path.normalize(path.join(__dirname, "./client/dist"));
+app.use(
+  "/inventory-application/assets",
+  express.static(path.join(buildPath, "assets"))
+);
 app.use(express.static(buildPath));
 app.use(
   cors({

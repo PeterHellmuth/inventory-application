@@ -4,7 +4,4 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   base: "/inventory-application/",
   plugins: [react()],
-  server: {
-    host: true,
-  },
 });
