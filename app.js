@@ -46,7 +46,10 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       "script-src": ["'self'", "code.jquery.com", "cdn.jsdelivr.net"],
-      "connect-src": ["'self'", "https://www.peterhellmuth.com"],
+      "connect-src": [
+        "'self'",
+        "https://inventory-application-tysi.onrender.com",
+      ],
     },
   })
 );
@@ -63,7 +66,10 @@ app.use(
 app.use(express.static(buildPath));
 app.use(
   cors({
-    origin: ["https://www.peterhellmuth.com", "http://localhost:5173"],
+    origin: [
+      "https://inventory-application-tysi.onrender.com",
+      "http://localhost:5173",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
