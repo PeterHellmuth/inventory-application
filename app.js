@@ -74,7 +74,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-app.use("/inventory-application", indexRouter);
-app.use("/inventory-application/inventory", inventoryRouter);
+app.use("/inventory-application/", indexRouter);
+app.use("/inventory", inventoryRouter);
 
 module.exports = app;

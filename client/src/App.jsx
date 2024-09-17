@@ -30,7 +30,7 @@ function normalizePort(val) {
 
 //const port = normalizePort(process.env.PORT || "3000");
 // const SERVER_URL = "http://localhost:3001/inventory-application"; // devtest
-const SERVER_URL = "https://inventory-application-tysi.onrender.com"; // deployed
+const SERVER_URL = "http://inventory-application-tysi.onrender.com"; // deployed
 
 console.log("Server URL: " + SERVER_URL);
 
